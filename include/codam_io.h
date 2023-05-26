@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/25 23:45:38 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/26 01:57:15 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/05/26 18:42:16 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,66 @@ ______                              _
  * or a value smaller than requested number of bytes to write
 */
 #  define IO_FAILFAST_ON_WRITE_ERROR 1
+# endif
+
+/*
+ _____     _ _     _____           _           
+|  ___|   (_) |   /  __ \         | |          
+| |____  ___| |_  | /  \/ ___   __| | ___  ___ 
+|  __\ \/ / | __| | |    / _ \ / _` |/ _ \/ __|
+| |___>  <| | |_  | \__/\ (_) | (_| |  __/\__ \
+\____/_/\_\_|\__|  \____/\___/ \__,_|\___||___/
+
+Redefine these exit codes if you want consistency with your exit codes
+
+*/
+
+# ifndef IO_EXIT_ALLOCATION_ERROR
+/**
+ * If IO_FAILFAST_ON_ALLOCATION_ERROR is true program exits with this code
+ * after unsuccessful malloc (i. e. malloc returning NULL)
+*/
+#  define IO_EXIT_ALLOCATION_ERROR 134
+# endif
+
+# ifndef IO_EXIT_CLOSE_ERROR
+/**
+ * If IO_FAILFAST_ON_CLOSE_ERROR is true program exits with this code
+ * after unsuccessful close (close returns -1)
+*/
+#  define IO_EXIT_CLOSE_ERROR 99 
+# endif
+
+# ifndef IO_EXIT_OPEN_ERROR
+/**
+ * If IO_FAILFAST_ON_OPEN_ERROR is true program exits with this code
+ * after unsuccessful open (open returns negative value)
+*/
+#  define IO_EXIT_OPEN_ERROR 98 
+# endif
+
+# ifndef IO_EXIT_READ_ERROR
+/**
+ * If IO_FAILFAST_ON_READ_ERROR is true program exits with this code
+ * after unsuccessful read (read returns negative value; EOF is not an error)
+*/
+#  define IO_EXIT_READ_ERROR 100 
+# endif
+
+# ifndef IO_EXIT_WRITE_ERROR
+/**
+ * If IO_FAILFAST_ON_WRITE_ERROR is true program exits with this code
+ * after unsuccessful write (write writes less bytes that requested or errors)
+*/
+#  define IO_EXIT_WRITE_ERROR 101 
+# endif
+
+# ifndef IO_EXIT_WRONG_ARGS_ERROR
+/**
+ * Program exits with this code if passed args are invalid
+ * Examples: wrong format, request to give <= 0 memory to io_wrapped_malloc
+*/
+#  define IO_EXIT_WRONG_ARGS_ERROR -1
 # endif
 
 /*
@@ -165,8 +225,8 @@ typedef struct s_io_buffer
 typedef struct s_io_input_file
 {
 	int			fd;
-	t_io_bufer	buffer;
-}	t_io_file;
+	t_io_buffer	buffer;
+}	t_io_input_file;
 
 typedef enum e_io_open_for_read_status
 {
@@ -180,7 +240,9 @@ typedef enum e_io_open_for_read_status
  * @param[out] file variable to store info about the opened file
  * @returns operation status (success or error)
 */
-t_io_open_for_read_status	io_open_for_read(char *filename, t_io_file *file);
+t_io_open_for_read_status	io_open_for_read( \
+	char *filename, \
+	t_io_input_file *file);
 
 typedef enum e_io_next_line_status
 {
@@ -210,7 +272,7 @@ typedef enum e_io_close_status
  * @param[in, out] file file to close; the data in file will be reset
  * @returns operation status (success, error)
 */
-t_io_close_status			io_close(t_io_file *file);
+t_io_close_status			io_close(t_io_input_file *file);
 
 /*
  _   _      _
