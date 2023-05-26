@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/25 23:45:38 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/26 18:42:16 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/05/26 21:33:51 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ Redefine these exit codes if you want consistency with your exit codes
  * @brief Write string to fd
  * @param[in] fd file descriptor
  * @param[in] s string to write
- * @returns the value returned by write
+ * @returns 0 on success, -1 on error
  * @note write is called once, no retries
  * @note Null string will cause bus error
 */
@@ -150,7 +150,7 @@ int							io_write_string(int fd, const char *s);
  * @brief Write char to fd
  * @param[in] fd file descriptor
  * @param[in] ch character to write
- * @returns the value returned by write
+ * @returns 0 on success, -1 on error
 */
 int							io_write_char(int fd, char ch);
 
@@ -158,7 +158,7 @@ int							io_write_char(int fd, char ch);
  * @brief Write integer to fd
  * @param[in] fd file descriptor
  * @param[in] number integer to write
- * @returns number of bytes writen or -1 on error
+ * @returns 0 on success, -1 on error
 */
 int							io_write_number(int fd, int number);
 
@@ -166,7 +166,7 @@ int							io_write_number(int fd, int number);
  * @brief Write formatted to stdout
  * @param[in] fmt format string; recognized format specifiers: %c %d %s
  * @param[in] ... values for format to fill
- * @returns number of bytes written or -1 on error
+ * @returns 0 on success, -1 on error
 */
 int							io_out(const char *fmt, ...);
 
@@ -174,7 +174,7 @@ int							io_out(const char *fmt, ...);
  * @brief Write formatted to stderr
  * @param[in] fmt format string; recognized format specifiers: %c %d %s
  * @param[in] ... values for format to fill
- * @returns number of bytes written or -1 on error
+ * @returns 0 on success, -1 on error
 */
 int							io_err(const char *fmt, ...);
 
@@ -183,7 +183,7 @@ int							io_err(const char *fmt, ...);
  * @param[in] fd file descriptor
  * @param[in] fmt format string; recognized format specifiers: %c %d %s
  * @param[in] ... values for format to fill
- * @returns number of bytes written or -1 on error
+ * @returns 0 on success, -1 on error
 */
 int							io_f_print(int fd, const char *fmt, ...);
 
@@ -192,7 +192,7 @@ int							io_f_print(int fd, const char *fmt, ...);
  * @param[in] fd file descriptor
  * @param[in] fmt format string; recognized format specifiers: %c %d %s
  * @param[in] ap values for format to fill
- * @returns number of bytes written or -1 on error
+ * @returns 0 on success, -1 on error
 */
 int							io_vf_print(int fd, const char *fmt, va_list ap);
 
@@ -213,7 +213,7 @@ int							io_vf_print(int fd, const char *fmt, va_list ap);
 typedef struct s_io_buffer
 {
 	char	data[IO_BUFFER_SIZE];
-	int		pos;
+	int		start;
 	int		len;
 }	t_io_buffer;
 
@@ -299,5 +299,15 @@ int							io_signed_strlen(const char *s);
  * Malloc wrapper, allows to implement optional failfast behaviour
 */
 void						*io_wrapped_malloc(int size);
+
+/**
+ * Fills length bytes of memory with value 
+*/
+void						io_memset(char *memory, int length, char value);
+
+/**
+ * Resets buffer to the default state
+*/
+void						io_reset_buffer(t_io_buffer *buffer);
 
 #endif
