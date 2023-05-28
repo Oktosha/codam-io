@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/26 21:21:12 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/28 21:26:15 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/05/28 22:47:23 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_io_next_line_status	io_next_line(t_io_input_file *file, char **line)
 	*line = NULL;
 	if (extract_from_buffer_till_newline_or_end(line, &(file->buffer)))
 		return (clean_up_error(IO_NEXT_LINE_MEMORY_ERROR, file, line));
-	while (newline_position(*line, io_signed_strlen(*line)) == -2)
+	while (!*line || newline_position(*line, io_signed_strlen(*line)) == -2)
 	{
 		file->buffer.len = read(file->fd, file->buffer.data, IO_BUFFER_SIZE);
 		if (file->buffer.len < 0)
