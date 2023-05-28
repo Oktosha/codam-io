@@ -1,0 +1,3 @@
+[submodule "codam-io-test"]
+	path = codam-io-test
+	url = git@github.com:Oktosha/codam-io-test.git
