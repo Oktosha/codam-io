@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/26 18:59:22 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/28 21:08:18 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/05/28 21:26:39 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ static int	io_write_int_min(int fd)
 
 int	io_write_number(int fd, int number)
 {
-	int	retcode;
-
 	if (number == INT_MIN)
 		return (io_write_int_min(fd));
 	if (number < 0)

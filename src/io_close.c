@@ -6,10 +6,11 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/26 21:15:33 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/26 21:19:34 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/05/28 21:25:26 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <unistd.h>
 
 #include "codam_io.h"

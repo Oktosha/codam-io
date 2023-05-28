@@ -6,15 +6,14 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/26 21:21:12 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/28 21:06:29 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/05/28 21:26:15 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 #include "codam_io.h"
-#include "codam_io_impl.h"
 
 static int	newline_position(char *line, int length)
 {
@@ -46,7 +45,6 @@ static int	extract_from_buffer_till_newline_or_end(char **str, t_io_buffer *b)
 {
 	int		old_len;
 	int		added_len;
-	int		i;
 	char	*new_str;
 
 	if (b->len == 0)
