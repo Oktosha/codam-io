@@ -6,40 +6,71 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/26 21:21:12 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/26 22:12:58 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/05/28 21:06:29 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
+#include <unistd.h>
 
 #include "codam_io.h"
 #include "codam_io_impl.h"
 
-static int	contains_newline(char *line)
+static int	newline_position(char *line, int length)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while (line[i])
+	while (i < length)
 	{
 		if (line[i] == '\n')
-			return (1);
+			return (i);
 		i += 1;
 	}
+	return (-2);
+}
+
+static void	memory_copy(char *dst, char *src, int len)
+{
+	int	i;
+
+	i = 0;
+	while (i < len)
+	{
+		dst[i] = src[i];
+		i += 1;
+	}
+}
+
+static int	extract_from_buffer_till_newline_or_end(char **str, t_io_buffer *b)
+{
+	int		old_len;
+	int		added_len;
+	int		i;
+	char	*new_str;
+
+	if (b->len == 0)
+		return (0);
+	added_len = newline_position(b->data + b->start, b->len) + 1;
+	if (added_len == -1)
+		added_len = b->len;
+	old_len = 0;
+	if (*str != NULL)
+		old_len = io_signed_strlen(*str);
+	new_str = io_wrapped_malloc((old_len + added_len + 1) * sizeof(char));
+	if (new_str == NULL)
+		return (-1);
+	memory_copy(new_str, *str, old_len);
+	memory_copy(new_str + old_len, b->data + b->start, added_len);
+	new_str[old_len + added_len] = '\0';
+	free(*str);
+	*str = new_str;
+	b->start += added_len;
+	b->len -= added_len;
 	return (0);
 }
 
-static int	append(char **dst, char *src, int length)
-{
-
-}
-
-static int read_into_buffer(t_io_input_file *file)
-{
-
-}
-
-static t_io_next_line_status clean_up_error( \
+static t_io_next_line_status	clean_up_error( \
 	t_io_next_line_status err, \
 	t_io_input_file *file, \
 	char **line)
@@ -62,22 +93,20 @@ static t_io_next_line_status clean_up_error( \
 
 t_io_next_line_status	io_next_line(t_io_input_file *file, char **line)
 {
-	int			retcode;
-	t_io_buffer	*buffer;
-
 	*line = NULL;
-	buffer = &(file->buffer);
-	if (append(line, buffer->data + buffer->start, buffer->len))
+	if (extract_from_buffer_till_newline_or_end(line, &(file->buffer)))
 		return (clean_up_error(IO_NEXT_LINE_MEMORY_ERROR, file, line));
-	while (!contains_newline(line))
+	while (newline_position(*line, io_signed_strlen(*line)) == -2)
 	{
-		retcode = read_into_buffer(file);
-		if (retcode == IO_NEXT_LINE_READ_ERROR)
+		file->buffer.len = read(file->fd, file->buffer.data, IO_BUFFER_SIZE);
+		if (file->buffer.len < 0)
 			return (clean_up_error(IO_NEXT_LINE_READ_ERROR, file, line));
-		if (append(line, buffer->data + buffer->start, buffer->len))
-			return (clean_up_error(IO_NEXT_LINE_MEMORY_ERROR, file, line));
-		if (retcode == IO_NEXT_LINE_EOF)
+		if (file->buffer.len == 0)
 			break ;
+		if (extract_from_buffer_till_newline_or_end(line, &(file->buffer)))
+			return (clean_up_error(IO_NEXT_LINE_MEMORY_ERROR, file, line));
 	}
-	
+	if (*line == NULL)
+		return (IO_NEXT_LINE_EOF);
+	return (IO_NEXT_LINE_SUCCESS);
 }

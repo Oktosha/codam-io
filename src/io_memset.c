@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/26 21:06:12 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/26 21:09:27 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/05/28 21:05:25 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	io_memset(char *memory, int length, char value)
 {
-	int i;
+	int	i;
 
 	if (length <= 0)
 	{

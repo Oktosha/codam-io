@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/25 23:45:38 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/26 21:33:51 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/05/28 21:11:26 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ ______                              _
 # endif
 
 /*
- _____     _ _     _____           _           
-|  ___|   (_) |   /  __ \         | |          
-| |____  ___| |_  | /  \/ ___   __| | ___  ___ 
+ _____     _ _     _____           _
+|  ___|   (_) |   /  __ \         | |
+| |____  ___| |_  | /  \/ ___   __| | ___  ___
 |  __\ \/ / | __| | |    / _ \ / _` |/ _ \/ __|
 | |___>  <| | |_  | \__/\ (_) | (_| |  __/\__ \
 \____/_/\_\_|\__|  \____/\___/ \__,_|\___||___/
@@ -90,7 +90,7 @@ Redefine these exit codes if you want consistency with your exit codes
  * If IO_FAILFAST_ON_CLOSE_ERROR is true program exits with this code
  * after unsuccessful close (close returns -1)
 */
-#  define IO_EXIT_CLOSE_ERROR 99 
+#  define IO_EXIT_CLOSE_ERROR 99
 # endif
 
 # ifndef IO_EXIT_OPEN_ERROR
@@ -98,7 +98,7 @@ Redefine these exit codes if you want consistency with your exit codes
  * If IO_FAILFAST_ON_OPEN_ERROR is true program exits with this code
  * after unsuccessful open (open returns negative value)
 */
-#  define IO_EXIT_OPEN_ERROR 98 
+#  define IO_EXIT_OPEN_ERROR 98
 # endif
 
 # ifndef IO_EXIT_READ_ERROR
@@ -106,7 +106,7 @@ Redefine these exit codes if you want consistency with your exit codes
  * If IO_FAILFAST_ON_READ_ERROR is true program exits with this code
  * after unsuccessful read (read returns negative value; EOF is not an error)
 */
-#  define IO_EXIT_READ_ERROR 100 
+#  define IO_EXIT_READ_ERROR 100
 # endif
 
 # ifndef IO_EXIT_WRITE_ERROR
@@ -114,7 +114,7 @@ Redefine these exit codes if you want consistency with your exit codes
  * If IO_FAILFAST_ON_WRITE_ERROR is true program exits with this code
  * after unsuccessful write (write writes less bytes that requested or errors)
 */
-#  define IO_EXIT_WRITE_ERROR 101 
+#  define IO_EXIT_WRITE_ERROR 101
 # endif
 
 # ifndef IO_EXIT_WRONG_ARGS_ERROR
@@ -258,6 +258,7 @@ typedef enum e_io_next_line_status
  * @param[out] line variable to store the read line
  * @returns operation status (success, error, eof)
  * @note the line is allocated for you, you'll need to free it later
+ * @note Current impl is ineffective but simple and fits 5 funcs
 */
 t_io_next_line_status		io_next_line(t_io_input_file *file, char **line);
 
@@ -301,7 +302,7 @@ int							io_signed_strlen(const char *s);
 void						*io_wrapped_malloc(int size);
 
 /**
- * Fills length bytes of memory with value 
+ * Fills length bytes of memory with value
 */
 void						io_memset(char *memory, int length, char value);
 

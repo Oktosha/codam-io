@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/26 18:49:57 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/26 20:31:45 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/05/28 21:08:34 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 int	io_write_string(int fd, const char *s)
 {
-	int length;
-	int retcode;
+	int	length;
+	int	retcode;
 
 	length = io_signed_strlen(s);
 	retcode = write(fd, s, length);

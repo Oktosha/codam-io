@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/26 18:48:03 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/26 18:49:15 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/05/28 21:08:51 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	io_signed_strlen(const char *s)
 {
-	int length;
+	int	length;
 
 	length = 0;
 	while (s[length] != '\0')
