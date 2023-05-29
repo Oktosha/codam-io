@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/25 23:45:38 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/28 21:11:26 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/05/29 19:59:56 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,23 @@ typedef enum e_io_next_line_status
 */
 t_io_next_line_status		io_next_line(t_io_input_file *file, char **line);
 
+typedef enum e_io_all_lines_status
+{
+	IO_ALL_LINES_CLOSE_ERROR = -4,
+	IO_ALL_LINES_OPEN_ERROR = -3,
+	IO_ALL_LINES_MEMORY_ERROR = -2,
+	IO_ALL_LINES_READ_ERROR = -1,
+	IO_ALL_LINES_SUCCESS = 0
+}	t_io_all_lines_status;
+
+/**
+ * @brief reads all lines from a file
+ * @param[in] filename filename to read from
+ * @param[out] lines file lines; '\n' preserved; the line after the last is NULL
+ * @return operation status (success, or specific error)
+*/
+t_io_all_lines_status		io_all_lines(char *filename, char ***lines);
+
 typedef enum e_io_close_status
 {
 	IO_CLOSE_SUCCESS,
@@ -304,7 +321,7 @@ void						*io_wrapped_malloc(int size);
 /**
  * Fills length bytes of memory with value
 */
-void						io_memset(char *memory, int length, char value);
+void						io_memset(void *memory, int length, char value);
 
 /**
  * Resets buffer to the default state

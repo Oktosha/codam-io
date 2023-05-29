@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/26 21:06:12 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/28 21:05:25 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/05/29 19:21:45 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 #include "codam_io.h"
 
-void	io_memset(char *memory, int length, char value)
+void	io_memset(void *memory, int length, char value)
 {
-	int	i;
+	int		i;
+	char	*memory_as_char;
 
 	if (length <= 0)
 	{
@@ -24,9 +25,10 @@ void	io_memset(char *memory, int length, char value)
 		exit(IO_EXIT_WRONG_ARGS_ERROR);
 	}
 	i = 0;
+	memory_as_char = memory;
 	while (i < length)
 	{
-		memory[i] = value;
+		memory_as_char[i] = value;
 		i += 1;
 	}
 }
