@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/25 23:45:38 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/29 19:59:56 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/06/01 19:38:57 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,14 @@ Redefine these exit codes if you want consistency with your exit codes
  * Program exits with this code if passed args are invalid
  * Examples: wrong format, request to give <= 0 memory to io_wrapped_malloc
 */
-#  define IO_EXIT_WRONG_ARGS_ERROR -1
+#  define IO_EXIT_WRONG_ARGS_ERROR -2
+# endif
+
+# ifndef IO_EXIT_ASSERT_FAILED
+/**
+ * Program exits with this code if condition passed to io_assert is false
+*/
+#  define IO_EXIT_ASSERT_FAILED -1
 # endif
 
 /*
@@ -195,6 +202,15 @@ int							io_f_print(int fd, const char *fmt, ...);
  * @returns 0 on success, -1 on error
 */
 int							io_vf_print(int fd, const char *fmt, va_list ap);
+
+/**
+ * @brief prints formatted message to stderr and exits if condition is false
+ * message is printed bold prefixed with "Assertion failed: " written in red
+ * @param[in] condition thing to check
+ * @param[in] fmt format string; recognized format specifiers: %c %d %s
+ * @param[in] ... values for format to fill
+*/
+void						io_assert(int condition, const char *fmt, ...);
 
 /*
  _____                  _

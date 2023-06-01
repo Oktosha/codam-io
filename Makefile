@@ -15,6 +15,7 @@ all: ${NAME_IN_BUILD_FOLDER}
 
 SRCS=\
 io_all_lines.c \
+io_assert.c \
 io_close.c \
 io_err.c \
 io_f_print.c \
