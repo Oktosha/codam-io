@@ -13,19 +13,21 @@ all: ${NAME_IN_BUILD_FOLDER}
 
 # --- Building objects --
 
-SRCS=io_close.c \
-io_reset_buffer.c \
+SRCS=\
+io_all_lines.c \
+io_close.c \
 io_err.c \
-io_signed_strlen.c \
 io_f_print.c \
-io_vf_print.c \
 io_memset.c \
-io_wrapped_malloc.c \
 io_next_line.c \
-io_write_char.c \
 io_open_for_read.c \
-io_write_numer.c \
 io_out.c \
+io_reset_buffer.c \
+io_signed_strlen.c \
+io_vf_print.c \
+io_wrapped_malloc.c \
+io_write_char.c \
+io_write_number.c \
 io_write_string.c
 
 SRC_FOLDER=src

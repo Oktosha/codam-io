@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/26 21:21:12 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/28 22:47:23 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/06/01 15:43:24 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ static int	extract_from_buffer_till_newline_or_end(char **str, t_io_buffer *b)
 	*str = new_str;
 	b->start += added_len;
 	b->len -= added_len;
+	if (b->len == 0)
+		b->start = 0;
 	return (0);
 }
 
