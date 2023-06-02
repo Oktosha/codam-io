@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/29 19:12:45 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/06/01 14:08:14 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/06/02 14:22:02 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include "codam_io.h"
 
-static int s_adapt_next_line_status(int status)
+static int	s_adapt_next_line_status(int status)
 {
 	if (status == IO_NEXT_LINE_MEMORY_ERROR)
 		return (IO_ALL_LINES_MEMORY_ERROR);
@@ -33,7 +33,7 @@ static int s_adapt_next_line_status(int status)
 	exit(IO_EXIT_WRONG_ARGS_ERROR);
 }
 
-static int s_increase_capacity(char ***lines, int *capacity)
+static int	s_increase_capacity(char ***lines, int *capacity)
 {
 	int		new_capacity;
 	char	**new_lines;
@@ -58,14 +58,14 @@ static int s_increase_capacity(char ***lines, int *capacity)
 	return (0);
 }
 
-static t_io_all_lines_status s_cleanup( \
+static t_io_all_lines_status	s_cleanup( \
 	char ***lines, \
 	int line_cnt, \
 	t_io_input_file *file, \
 	t_io_all_lines_status status)
 {
-	int i;
-	int close_status;
+	int	i;
+	int	close_status;
 
 	if (status == IO_ALL_LINES_OPEN_ERROR)
 		return (IO_ALL_LINES_OPEN_ERROR);
@@ -85,7 +85,7 @@ static t_io_all_lines_status s_cleanup( \
 
 t_io_all_lines_status	io_all_lines(char *filename, char ***lines)
 {
-	t_io_input_file file;
+	t_io_input_file	file;
 	int				status;
 	int				capacity;
 	int				cnt;
@@ -103,5 +103,5 @@ t_io_all_lines_status	io_all_lines(char *filename, char ***lines)
 			return (s_cleanup(lines, cnt, &file, IO_ALL_LINES_MEMORY_ERROR));
 		status = io_next_line(&file, &((*lines)[cnt]));
 	}
-	return s_cleanup(lines, cnt, &file, s_adapt_next_line_status(status));
+	return (s_cleanup(lines, cnt, &file, s_adapt_next_line_status(status)));
 }
