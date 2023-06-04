@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/26 18:49:57 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/06/04 19:18:50 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/06/04 22:16:57 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,20 @@
 
 int	io_write_string(int fd, const char *s)
 {
-	int	length;
-	int	retcode;
+	const char	*msg = "Set IO_PRINT_NULLSTR_NICELY to print NULL with %s\n";
+	int			length;
+	int			retcode;
 
+	if (s == NULL)
+	{
+		if (IO_PRINT_NULLSTR_NICELY)
+			s = "(null)";
+		else
+		{
+			write(STDERR_FILENO, msg, io_signed_strlen(msg));
+			io_impl_exit("io_write_string", IO_EXIT_WRONG_ARGS_ERROR);
+		}
+	}
 	length = io_signed_strlen(s);
 	retcode = write(fd, s, length);
 	if (retcode < length)
