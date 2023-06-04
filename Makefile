@@ -14,16 +14,14 @@ all: ${NAME_IN_BUILD_FOLDER}
 # --- Building objects --
 
 SRCS=\
-io_all_lines.c \
 io_assert.c \
-io_close.c \
 io_err.c \
 io_f_print.c \
+io_impl_exit.c \
+io_memcpy.c \
 io_memset.c \
-io_next_line.c \
-io_open_for_read.c \
 io_out.c \
-io_reset_buffer.c \
+io_read_file.c \
 io_signed_strlen.c \
 io_vf_print.c \
 io_wrapped_malloc.c \

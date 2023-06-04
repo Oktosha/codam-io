@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/25 23:45:38 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/06/01 19:38:57 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/06/04 20:57:34 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,16 @@ ______                              _
 */
 
 # ifndef IO_BUFFER_SIZE
-/** Determines the size of the buffer used in io_next_line */
+/** Determines the size of the buffer used in calls to read */
 #  define IO_BUFFER_SIZE 100
+# endif
+
+# ifndef IO_PRINT_NULLSTR_NICELY
+/**
+ * If set to true, NULL passed to %s format is printed as "(null)"
+ * By default attempt to print a NULL with %s crashes the program
+ */
+#  define IO_PRINT_NULLSTR_NICELY 0
 # endif
 
 # ifndef IO_FAILFAST_ON_ALLOCATION_ERROR
@@ -224,89 +232,33 @@ void						io_assert(int condition, const char *fmt, ...);
 */
 
 /**
- * Data structure for buffer (stores extra bytes from read)
+ * Data structure that stores arbitrary bytes (including '\0' in the middle)
 */
-typedef struct s_io_buffer
+typedef struct s_io_charz
 {
-	char	data[IO_BUFFER_SIZE];
-	int		start;
+	char	*data;
 	int		len;
-}	t_io_buffer;
+	int		capacity;
+}	t_io_charz;
 
-/**
- * Data structure that describes an input file
- * Used to hold the buffer with read data and the file descriptor together
- * Less evil than static variables in get_next_line
-*/
-typedef struct s_io_input_file
+typedef enum e_io_read_file_status
 {
-	int			fd;
-	t_io_buffer	buffer;
-}	t_io_input_file;
-
-typedef enum e_io_open_for_read_status
-{
-	IO_OPEN_FOR_READ_SUCCESS,
-	IO_OPEN_FOR_READ_ERROR
-}	t_io_open_for_read_status;
-
-/**
- * @brief Opens file for reading
- * @param[in] filename path to the file
- * @param[out] file variable to store info about the opened file
- * @returns operation status (success or error)
-*/
-t_io_open_for_read_status	io_open_for_read( \
-	char *filename, \
-	t_io_input_file *file);
-
-typedef enum e_io_next_line_status
-{
-	IO_NEXT_LINE_MEMORY_ERROR = -2,
-	IO_NEXT_LINE_READ_ERROR = -1,
-	IO_NEXT_LINE_EOF = 0,
-	IO_NEXT_LINE_SUCCESS = 1
-}	t_io_next_line_status;
-
-/**
- * @brief reads next line from the given file
- * @param[in] file info about the file
- * @param[out] line variable to store the read line
- * @returns operation status (success, error, eof)
- * @note the line is allocated for you, you'll need to free it later
- * @note Current impl is ineffective but simple and fits 5 funcs
-*/
-t_io_next_line_status		io_next_line(t_io_input_file *file, char **line);
-
-typedef enum e_io_all_lines_status
-{
-	IO_ALL_LINES_CLOSE_ERROR = -4,
-	IO_ALL_LINES_OPEN_ERROR = -3,
-	IO_ALL_LINES_MEMORY_ERROR = -2,
-	IO_ALL_LINES_READ_ERROR = -1,
-	IO_ALL_LINES_SUCCESS = 0
-}	t_io_all_lines_status;
+	IO_READ_FILE_CLOSE_ERROR = 8,
+	IO_READ_FILE_OPEN_ERROR = 4,
+	IO_READ_FILE_ALLOC_ERROR = 2,
+	IO_READ_FILE_READ_ERROR = 1,
+	IO_READ_FILE_SUCCESS = 0
+}	t_io_read_file_status;
 
 /**
  * @brief reads all lines from a file
  * @param[in] filename filename to read from
- * @param[out] lines file lines; '\n' preserved; the line after the last is NULL
- * @return operation status (success, or specific error)
+ * @param[out] data file contents; no null-termination, check data.len
+ * @return operation status (success or a mask of errors),
+ * for example, IO_READ_FILE_ALLOC_ERROR | IO_READ_FILE_CLOSE_ERROR
+ * check specific errors using bit operations
 */
-t_io_all_lines_status		io_all_lines(char *filename, char ***lines);
-
-typedef enum e_io_close_status
-{
-	IO_CLOSE_SUCCESS,
-	IO_CLOSE_ERROR
-}	t_io_close_status;
-
-/**
- * @brief closes the file
- * @param[in, out] file file to close; the data in file will be reset
- * @returns operation status (success, error)
-*/
-t_io_close_status			io_close(t_io_input_file *file);
+t_io_read_file_status		io_read_file(char *filename, t_io_charz *data);
 
 /*
  _   _      _
@@ -340,8 +292,15 @@ void						*io_wrapped_malloc(int size);
 void						io_memset(void *memory, int length, char value);
 
 /**
- * Resets buffer to the default state
+ * Copies n_bytes from src to dst
+ * dst and src should not overlap!
 */
-void						io_reset_buffer(t_io_buffer *buffer);
+void						io_memcpy(void *dst, void *src, int n_bytes);
+
+/**
+ * Function called by other functions in the lib to exit on error
+ * Not intended for outer use
+*/
+void						io_impl_exit(char *func_name, int exit_code);
 
 #endif

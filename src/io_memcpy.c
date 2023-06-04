@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   io_reset_buffer.c                                  :+:    :+:            */
+/*   io_memcpy.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/26 21:11:31 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/26 21:34:01 by dkolodze      ########   odam.nl         */
+/*   Created: 2023/06/04 19:35:09 by dkolodze      #+#    #+#                 */
+/*   Updated: 2023/06/04 21:25:45 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "codam_io.h"
-
-void	io_reset_buffer(t_io_buffer *buffer)
+void	io_memcpy(void *dst, void *src, int n_bytes)
 {
-	io_memset(buffer->data, IO_BUFFER_SIZE, 0);
-	buffer->start = 0;
-	buffer->len = 0;
+	char	*c_dst;
+	char	*c_src;
+	int		i;
+
+	c_dst = dst;
+	c_src = src;
+	i = 0;
+	while (i < n_bytes)
+	{
+		c_dst[i] = c_src[i];
+		i += 1;
+	}
 }

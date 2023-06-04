@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/26 21:06:12 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/29 19:21:45 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/06/04 19:15:00 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	io_memset(void *memory, int length, char value)
 	if (length <= 0)
 	{
 		io_err("Trying to set %d <= 0 bytes of memory to %c\n", length, value);
-		exit(IO_EXIT_WRONG_ARGS_ERROR);
+		io_impl_exit("io_memset", IO_EXIT_WRONG_ARGS_ERROR);
 	}
 	i = 0;
 	memory_as_char = memory;

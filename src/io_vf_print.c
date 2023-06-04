@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/26 20:40:11 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/05/28 21:09:22 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/06/04 19:19:37 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	exit_wrong_format(int fd, const char *fmt, int pos)
 {
 	io_err("in io_vf_print(%d, \"%s\", ...)\n", fd, fmt);
 	io_err("Error: wrong format at position %d\n", pos);
-	exit(IO_EXIT_WRONG_ARGS_ERROR);
+	io_impl_exit("io_vf_print", IO_EXIT_WRONG_ARGS_ERROR);
 }
 
 int	io_vf_print(int fd, const char *fmt, va_list ap)
