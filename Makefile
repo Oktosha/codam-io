@@ -11,6 +11,11 @@ BUILD_FOLDER=build
 NAME_IN_BUILD_FOLDER=${BUILD_FOLDER}/${NAME}
 all: ${NAME_IN_BUILD_FOLDER}
 
+# --- Norm target ---
+
+norm:
+	norminette include src
+
 # --- Building objects --
 
 SRCS=\
@@ -18,6 +23,8 @@ io_assert.c \
 io_err.c \
 io_f_print.c \
 io_impl_exit.c \
+io_is_ascii_print.c \
+io_is_ascii_whitespace.c \
 io_memcpy.c \
 io_memset.c \
 io_out.c \
@@ -49,7 +56,7 @@ ${NAME_IN_BUILD_FOLDER}: ${OBJS}
 
 # -- More boilerplate things --
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re norm
 
 clean:
 	rm -rf ${BINARY_FOLDER}

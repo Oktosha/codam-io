@@ -6,7 +6,7 @@
 /*   By: dkolodze <dkolodze@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/25 23:45:38 by dkolodze      #+#    #+#                 */
-/*   Updated: 2023/06/04 20:57:34 by dkolodze      ########   odam.nl         */
+/*   Updated: 2023/06/09 14:24:50 by dkolodze      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,14 +261,14 @@ typedef enum e_io_read_file_status
 t_io_read_file_status		io_read_file(char *filename, t_io_charz *data);
 
 /*
- _   _      _
-| | | |    | |
-| |_| | ___| |_ __   ___ _ __ ___
-|  _  |/ _ \ | '_ \ / _ \ '__/ __|
-| | | |  __/ | |_) |  __/ |  \__ \
-\_| |_/\___|_| .__/ \___|_|  |___/
-             | |
-             |_|
+ _____ _        _                 
+/  ___| |      (_)                
+\ `--.| |_ _ __ _ _ __   __ _ ___ 
+ `--. \ __| '__| | '_ \ / _` / __|
+/\__/ / |_| |  | | | | | (_| \__ \
+\____/ \__|_|  |_|_| |_|\__, |___/
+                         __/ |    
+                        |___/     
 */
 
 /**
@@ -280,6 +280,36 @@ t_io_read_file_status		io_read_file(char *filename, t_io_charz *data);
  * @returns length of the string
 */
 int							io_signed_strlen(const char *s);
+
+/**
+ * @brief Test if character is printable ascii character (see man isprint)
+ * @note space is printable
+ * @note newline and tab aren't printable
+ * @note can be true only for ascii characters (i. e. no unicode support)
+ * @note I use int instead of char mainly to be able to put EOF inside
+ * @returns true (1) for printables, false (0) for non-printables
+*/
+int							io_is_ascii_print(int ch);
+
+/**
+ * @brief Test if character is ascii whitespace (see man isspace)
+ * @note space is space, newline is space, tab is space, etc.
+ * @note can be true only for ascii characters (i. e. no unicode support)
+ * @note I use int instead of char mainly to be able to put EOF inside
+ * @returns true (1) for whitespace, false (0) for non-whitespace
+*/
+int							io_is_ascii_whitespace(int ch);
+
+/*
+ _   _      _
+| | | |    | |
+| |_| | ___| |_ __   ___ _ __ ___
+|  _  |/ _ \ | '_ \ / _ \ '__/ __|
+| | | |  __/ | |_) |  __/ |  \__ \
+\_| |_/\___|_| .__/ \___|_|  |___/
+             | |
+             |_|
+*/
 
 /**
  * Malloc wrapper, allows to implement optional failfast behaviour
