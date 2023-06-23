@@ -22,7 +22,7 @@ You can change some behaviour through changing some macro defines. They are most
 
 And, of course you can change the code or copy a part of the code to use in your project.
 
-## 📃 Credits & Licence Notes
+## 📃 Credits & License Notes
 
 ### Doom figlet font
 
